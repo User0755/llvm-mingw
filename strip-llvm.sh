@@ -54,7 +54,7 @@ MINGW*)
 esac
 
 cd bin
-for i in amdgpu-arch bugpoint c-index-test clang-* clangd clangd-* darwin-debug diagtool dsymutil find-all-symbols git-clang-format hmaptool ld64.lld* llc lldb-* lli llvm-* modularize nvptx-arch obj2yaml offload-arch opt pp-trace sancov sanstats scan-build scan-view split-file verify-uselistorder wasm-ld yaml2* libclang.dll *LTO.dll *Remarks.dll *.bat; do
+for i in amdgpu-arch bugpoint c-index-test clang-* clangd clangd-* darwin-debug diagtool dsymutil find-all-symbols git-clang-format hmaptool ld64.lld* llc lldb-* lli llvm-* modularize nvptx-arch obj2yaml offload-arch opt pp-trace sancov sanstats scan-build scan-view split-file verify-uselistorder wasm-ld yaml2* *LTO.dll *Remarks.dll *.bat; do
     basename=$i
     if [ -n "$EXEEXT" ]; then
         # Some in the list are expanded globs, some are plain names we list.
@@ -97,6 +97,8 @@ for i in amdgpu-arch bugpoint c-index-test clang-* clangd clangd-* darwin-debug 
         fi
         ;;
     lldb|lldb-server|lldb-argdumper|lldb-instr|lldb-mi|lldb-vscode|lldb-dap)
+        ;;
+    libclang*)
         ;;
     *)
         if [ -f $i ]; then
@@ -142,11 +144,18 @@ rm -rf opt-viewer scan-build scan-view
 rm -rf man/man1/scan-build*
 cd ..
 cd include
-rm -rf clang clang-c clang-tidy lld llvm llvm-c lldb
+rm -rf clang clang-tidy lld llvm llvm-c lldb
 cd ..
 cd lib
+# Keep libclang.dll.a (the libclang import library) across the cleanup below.
+if [ -f libclang.dll.a ]; then
+    mv libclang.dll.a ../libclang.dll.a.keep
+fi
 rm -f *.dll.a
 rm -f lib*.a
+if [ -f ../libclang.dll.a.keep ]; then
+    mv ../libclang.dll.a.keep libclang.dll.a
+fi
 for i in *.so* *.dylib* cmake; do
     case $i in
     liblldb*|libclang-cpp*|libLLVM*)
