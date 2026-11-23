@@ -69,6 +69,9 @@ fi
 
 [ -z "$CHECKOUT_ONLY" ] || exit 0
 
+SCRIPT_DIR=$(dirname "$0")
+"$SCRIPT_DIR/generate-sbom-metadata.sh" mingw-w64 "$(pwd)"
+
 MAKE=make
 if command -v gmake >/dev/null; then
     MAKE=gmake

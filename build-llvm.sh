@@ -158,6 +158,9 @@ fi
 
 [ -z "$CHECKOUT_ONLY" ] || exit 0
 
+SCRIPT_DIR=$(dirname "$0")
+"$SCRIPT_DIR/generate-sbom-metadata.sh" llvm "$(pwd)/llvm-project"
+
 if [ -n "$HOST" ]; then
     case $HOST in
     *-mingw32)
