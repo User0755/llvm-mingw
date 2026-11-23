@@ -6,3 +6,5 @@
 /cpython*
 /python-native
 /toolchain
+/install
+/sbom-output

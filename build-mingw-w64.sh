@@ -16,6 +16,8 @@
 
 set -e
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
 : ${DEFAULT_WIN32_WINNT:=0x601}
 : ${DEFAULT_MSVCRT:=ucrt}
 : ${MINGW_W64_VERSION:=41eb042358a52011b35350392130dcdc94a8ead8}
@@ -69,8 +71,7 @@ fi
 
 [ -z "$CHECKOUT_ONLY" ] || exit 0
 
-SCRIPT_DIR=$(dirname "$0")
-"$SCRIPT_DIR/generate-sbom-metadata.sh" mingw-w64 "$(pwd)"
+"$SCRIPT_DIR/generate-sbom-metadata.sh" mingw-w64 "$(pwd)" "$PREFIX/sbom"
 
 MAKE=make
 if command -v gmake >/dev/null; then

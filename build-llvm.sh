@@ -16,6 +16,8 @@
 
 set -e
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
 : ${LLVM_REPOSITORY:=https://github.com/llvm/llvm-project.git}
 : ${LLVM_VERSION:=llvmorg-23.1.6}
 ASSERTS=OFF
@@ -158,8 +160,7 @@ fi
 
 [ -z "$CHECKOUT_ONLY" ] || exit 0
 
-SCRIPT_DIR=$(dirname "$0")
-"$SCRIPT_DIR/generate-sbom-metadata.sh" llvm "$(pwd)/llvm-project"
+"$SCRIPT_DIR/generate-sbom-metadata.sh" llvm "$(pwd)/llvm-project" "$PREFIX/sbom"
 
 if [ -n "$HOST" ]; then
     case $HOST in

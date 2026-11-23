@@ -71,6 +71,10 @@ for arch in $ARCHS; do
     done
 done
 
+# Copy the SBOM metadata
+rm -rf $DEST/sbom
+cp -a $SRC/sbom $DEST/sbom
+
 # Copy the libc++ module sources
 rm -rf $DEST/share/libc++
 cp -a $SRC/share/libc++ $DEST/share
